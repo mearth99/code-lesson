@@ -20,7 +20,8 @@
 
 */
 /* 결과
-
+우측에서 계산한다면 술술풀렸던 문제다. 다만 계산결과가 1초이내가 되어야하기 때문에, buff를 계속 비워가면서 체크해줘야한다.
+왼쪽에서 계산한다면 아주 어렵게 생각되지만, 오른쪽 부터 계산한다면 간단한 코드로 만들 수 있었다.
 */
 #include <iostream>
 #include <vector>
@@ -42,16 +43,17 @@ int main()
     values[N-1] = -1;
     buff.push_back(NGE[N-1]);
     for(int i=N-2;i>=0;i--){
-        flag=false;
-        for(int j=buff.size();j>=0;j--){
-            if(NGE[i]<buff[j]){ //오큰수 조건을 충족한다면,
-                values[i] = buff[j];
+        while(!buff.empty()){
+            if(buff[buff.size()-1]<=NGE[i]){
+                buff.pop_back();
+            }
+            else{
+                values[i] = buff[buff.size()-1];
                 buff.push_back(NGE[i]);
-                flag=true;
                 break;
             }
         }
-        if(!flag){
+        if(buff.empty()){
             values[i] = -1;
             buff.push_back(NGE[i]);
         }
