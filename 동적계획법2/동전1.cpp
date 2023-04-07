@@ -14,18 +14,30 @@ n가지 종류의 동전이 있다. 각각의 동전이 나타내는 가치는 �
  */
 
 /* 예상
-동전을 1개만 사용하여
+DP[a] += DP[a-coin[i]];
+
 */
 /* 결과
-
+찾아보고 했는데.. 왜 되는걸까? 아직 부족하다 이진기!!!
 */
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <iostream>
+using namespace std;
 
-
+int dp[10001];
+int coin[101];
 
 int main()
 {
-
+    int n,k;
+    cin >> n >> k;
+    for(int i=1;i<=n;i++){
+        cin >> coin[i];
+    }
+    dp[0]=1;
+    for(int i=1;i<=n;i++){
+        for(int j=coin[i];j<=k;j++){
+            dp[j] += dp[j-coin[i]];
+        }
+    }
+    cout << dp[k];
 }
