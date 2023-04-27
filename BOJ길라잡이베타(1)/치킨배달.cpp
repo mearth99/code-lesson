@@ -20,6 +20,7 @@
 폐업해야하는 치킨의 갯수는 이미 정해져있다. 시간 제한은 1초, 메모리 제한은 512mb이다. 같은 거리에 대한 계산이 계속 달라지기 때문에, 백트래킹을 이용해야한다.
 배열 A를 만들어 이미 선점했는지 안했는지 파악한다. 선점 개수가 M개라면, 치킨 거리를 계산한다. 치킨 거리를 계산했다면, 값을 비교하고 다음으로 넘어간다.
 치킨집의 좌표를 구하고, 집의 좌표를 구하고 서로만 일치시킨다면?
+메모리를 늘려서 해결했다. 조합에 대해 생각하지 않았는데 아주 중요한 문제였다. 조합을 만드는 방법도 신경써야하다니....제기랄!
 */
 /* 결과
 
@@ -27,67 +28,69 @@
 #include <iostream>
 #include <cstdlib>
 #include <limits.h>
+#include <vector>
 using namespace std;
 int dp[51][51];
-int A[51][51];
 int house[101][2]; //집의 개수
 int chicken[14][2]; //치킨 집의 개수
-int Ch[14][2]; //M개 선택한 치킨집의 갯수
 int M,output=INT32_MAX;
+int h_c=1,c_c=1;
+int arr[] = {0 ,1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+vector<int> combi;
 
-void Ch_test(){
-    for(int i=1;i<=M;i++){
-        cout << Ch[i][0] << ", " << Ch[i][1] << endl;
+void Print_Combi(){
+    for(int i=0;i<combi.size();i++){
+        cout << combi[i] << " ";
     }
-    cout << "-----------" << endl;
+    cout << endl;
 }
-
-void distance(int N){
+void Print_Chicken(){
+    for(int i=0;i<combi.size();i++){
+        cout << "(" << chicken[combi[i]][0] << "," <<  chicken[combi[i]][1] << ")";
+    }
+    cout << endl;
+}
+void Print_House(){
+    for(int i=1;i<h_c;i++){
+        cout << "(" << house[i][0] << "," <<  house[i][1] << ")";
+    }
+    cout << endl;
+}
+void distance(){
     int City = 0;
     int home = INT32_MAX;
     int distance;
-    // Ch_test();
-    for(int i=1;i<=N;i++){
-        for(int j=1;j<=N;j++){
-            if(dp[i][j]==1){
-                for(int k=1;k<=M;k++){
-                    distance = abs((Ch[k][0] - i)) + abs(Ch[k][1] - j);
-                    home = min(home, distance);
-                }
-                City += home;
-                home = 9999999;
-            }
+    // Print_Chicken();
+    // Print_House();
+    for(int i=1;i<h_c;i++){
+        for(int j=0;j<combi.size();j++){
+            distance = abs((chicken[combi[j]][0] - house[i][0])) + abs((chicken[combi[j]][1] - house[i][1]));
+            //cout << chicken[combi[j]][0] << " - " << house[i][0] << " " << chicken[combi[j]][1] << " - " << house[i][1] << endl;
+            home = min(home, distance);
         }
+        City += home;
+        home = INT32_MAX;
     }
     output = min(output,City);
 }
-void cacu(int N,int count){
-    for(int i=1;i<=M;i++){
 
-            if(A[i][j]==0 && dp[i][j]==2){
-                A[i][j] = 1;
-                count++;
-                Ch[count][0] = i;
-                Ch[count][1] = j;
-                if(count == M){
-                    distance(N);
-                    A[i][j] = 0;
-                    count--;
-                }
-                else{
-                    cacu(N,count);
-                    A[i][j] = 0;
-                    count--;
-                }
-            }
-            else
-                continue;
-        }
+void cacu(int start){
+    //치킨집을 선택한다. 이후 마을을 선택하여 값을 계산한다. 치킨집을 선택할 때, 치킨집은 조합에 의해 중복이 없어야한다. 치킨집은 1부터 시작
+    if(combi.size()==M){
+        //Print_Combi();
+        distance();
+        return;
     }
+    for(int i=start+1;i<c_c;i++){
+        combi.push_back(arr[i]);
+        cacu(i);
+        combi.pop_back();
+    }    
 }
+
 int main()
 {
-    int N,h_c=1,c_c=1;
+    int N;
     cin >> N >> M;
     for(int i=1;i<=N;i++){
         for(int j=1;j<=N;j++){
@@ -102,6 +105,6 @@ int main()
             }
         }
     }
-    cacu(N,0);
+    cacu(0);
     cout << output;
 }

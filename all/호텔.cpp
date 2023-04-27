@@ -30,23 +30,27 @@ DP[i] = min(DP[i],DP[i-a]+people[a]);로 구성할 수 있다.
 #include <algorithm>
 using namespace std;
 
-int dp[1001] ={1000000};
+int dp[100001];
+int fee[21];
 int people[21];
 
 int main()
 {
     int C,N;
     cin >> C >> N;
-    for(int i=0;i<N;i++){
-        int value, customer;
-        cin >> value >> customer;
-        people[customer] = value;
+    for(int i=1;i<=N;i++){
+        cin >> fee[i] >> people[i];
     }
-    for(int i=0;i<N;i++){
-        for(int j=0;j<=C&&j<=i;j++){
-            dp[i] = min(dp[i],dp[i-j]+people[j]);
+    for(int i=1;i<=N;i++){
+        for(int j=1;j<=100000;j++){
+            if(j>=fee[i])
+                dp[j] = max(dp[j],dp[j-fee[i]]+people[i]);
         }
     }
-    for(int i=0;i<=C;i++)
-        cout << dp[i] <<" ";
+    for(int i=1;i<=100000;i++){
+        if(dp[i]>=C){
+            cout << i <<" ";
+            break;
+        }
+    }
 }
