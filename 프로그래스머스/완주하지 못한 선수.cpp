@@ -12,7 +12,13 @@ using namespace std;
 
 string solution(vector<string> participant, vector<string> completion) {
     string answer = "";
-    map<string, int> m;
-    for(int i=0;i<participant.length)
+    multimap<string, int> m;
+    for(int i=0;i<participant.size();i++){
+      m.insert({participant[i],i});
+    }
+    for(int i=0;i<completion.size();i++){
+      m.erase(m.find(completion[i]));
+    }
+    answer = m.begin()->first;
     return answer;
 }
