@@ -30,17 +30,11 @@ int main()
       sum[i][j] += sum[i-1][j];
     }
   }
-  // for(int i=1;i<=n;i++){
-  //   for(int j=1;j<=m;j++){
-  //     cout << sum[i][j] << " ";
-  //   }
-  //   cout << endl;
-  // }
   cin >> k;
   for(int i=0;i<k;i++){
     int x1,x2,y1,y2;
     cin >> y1 >> x1 >> y2 >> x2;
-    cout << sum[y2][x2]-sum[y1-1][x2]-sum[y2][x1-1]+sum[y1-1][x1-1];
+    cout << sum[y2][x2]-sum[y1-1][x2]-sum[y2][x1-1]+sum[y1-1][x1-1]<<endl;
   }
   return 0;
 }

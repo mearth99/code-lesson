@@ -17,6 +17,8 @@ using namespace std;
 
 int main()
 {
+  ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+  
   int n,m;
   cin >> n;
   vector<int> sum(n+1);
@@ -28,7 +30,7 @@ int main()
   for(int i=0;i<m;i++){
     int x1,x2;
     cin >> x1 >> x2;
-    cout << sum[x2]-sum[x1-1]<< endl;
+    cout << sum[x2]-sum[x1-1]<< '\n';
   }
   return 0;
 }
