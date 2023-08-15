@@ -7,7 +7,7 @@ bool S_compare(string user, string ban){
     for(int i=0;i<user.size();i++){
         if(ban[i]=='*') continue;
         if(user[i]!=ban[i])
-            return false
+            return false;
     }
     return true;
 }
