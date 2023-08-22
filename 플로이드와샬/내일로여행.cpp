@@ -26,8 +26,8 @@ int main()
     vector<string> city_name;
     vector<int> course;
     int n,r,m,k;
-    int sum_ticket = 0;
-    int sum_nonticket = 0;
+    double sum_ticket = 0;
+    double sum_nonticket = 0;
     
     cin >> n >> r;
     for(int i=0;i<n;i++){
