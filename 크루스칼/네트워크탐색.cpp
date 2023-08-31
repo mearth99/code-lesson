@@ -46,6 +46,7 @@ int main(){
     int from, to, cost;
     cin >> from >> to >> cost;
     graph.push_back(make_computer(from,to,cost));
+    graph.push_back(make_computer(to,from,cost));
     // graph.push_back(make_computer(to,from,cost));
   }
   for(int i=0;i<1001;i++) node[i] = i;
