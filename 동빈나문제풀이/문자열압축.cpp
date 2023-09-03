@@ -25,7 +25,6 @@ int zip(int length, string text){
     }
     if(dup>1) output+= to_string(dup);
     output += pretext;
-    cout << output << endl;
     return output.size();
 }
 int solution(string s) {
