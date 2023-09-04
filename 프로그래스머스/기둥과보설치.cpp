@@ -44,19 +44,15 @@ bool check_remove(int x, int y, int a){
 vector<vector<int>> solution(int n, vector<vector<int>> build_frame) {
     vector<vector<int>> answer;
     arr_size = n;
-    for(int i=0;i<101;i++)
-      for(int j=0;j<101;j++){
-        arr[i][j][0] = false;
-        arr[i][j][1] = false;
-      }
-    
+
     for(auto it : build_frame){
       int x = it[0];
       int y = it[1];
       int a = it[2];
       int delete_new = it[3];
-      if(delete_new==1)
+      if(delete_new==1){
         if(check_set(x,y,a)) arr[x][y][a] = true;
+      }
       else
         if(!check_remove(x,y,a)) arr[x][y][a] = true;
     }

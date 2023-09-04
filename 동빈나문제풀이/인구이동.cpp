@@ -5,59 +5,59 @@
 #include <queue>
 
 using namespace std;
-int n,l,r;
-int courties[51] = {0};
-bool visit[51];
-int gap_people[51][51] = {0};
-vector<int> open_courties(){
-    vector<int> check;
-    check.clear();
-    for(int i=0;i<n*n;i++){
-        visit[i] = false;   
-        for(int j=0;j<n*n;j++){
-            gap_people[i][j] = abs(courties[i]-courties[j]);
-            if(gap_people[i][j]>=l &&gap_people[i][j]<= r) 
-                check.push_back(i);
-        }
-    }
-    return check;
-}
-void BFS(int start){
-    queue<int> q;
-    vector<int> union_courty;
+int n,l,r,day=0;
+int courties[51][51]= {0};
+bool visit[51][51];
+int dx[4] = {-1,0,1,0};
+int dy[4] = {0,-1,0,1};
+bool flag = false;
+void BFS(int y,int x){
+    if(visit[y][x]) return;
+    queue<pair<int,int>> q;
+    vector<pair<int,int>> union_courty;
     union_courty.clear();
-    visit[start] = true;
-    q.push(start);
+    int sum = courties[y][x];
+    visit[y][x] = true;
+    q.push({y,x});
     while (!q.empty()){
-        int target = q.front();
+        pair<int,int> target = q.front();
         q.pop();
         union_courty.push_back(target);
-        for(int i=0;i<n*n;i++)
-            if(gap_people[target][i]>=l && gap_people[target][i]<=r && !visit[i]){
-                q.push(i);
-                visit[i] = true;
+        for(int i=0;i<4;i++){
+            int ny = target.first + dy[i];
+            int nx = target.second + dx[i];
+            if(nx>=0 && ny >=0 && nx<n && ny<n && !visit[ny][nx] && abs(courties[ny][nx]-courties[target.first][target.second])<=r && abs(courties[ny][nx]-courties[target.first][target.second])>=l){
+                q.push({ny,nx});
+                visit[ny][nx] = true;
+                sum += courties[ny][nx];
             }
+        }
     }
-    int sum = 0;
+    if(union_courty.size()>1) flag = true;
+    else return;
+
     for(auto u : union_courty)
-        sum += courties[u];
-    for(auto u : union_courty)
-        courties[u] = sum/union_courty.size();
+        courties[u.first][u.second] = sum/union_courty.size();
+    
     return;
 }
 
 int main(){
     cin >> n >> l >> r;
-    int day=0;
-    for(int i=0;i<n*n;i++)
-        cin >> courties[i];
-    while(true){
-        vector<int> check = open_courties();
-        if(check.size()==0) break;
-        for(auto i:check)
-            if(!visit[i]) BFS(i);
-        day++;
-    }
+    for(int i=0;i<n;i++)
+        for(int j=0;j<n;j++)
+            cin >> courties[i][j];
+    do{
+        flag = false;
+        for(int i=0;i<n;i++)
+            for(int j=0;j<n;j++)
+                visit[i][j]=false;
+
+        for(int i=0;i<n;i++)
+            for(int j=0;j<n;j++)
+                BFS(i,j);
+        if(flag) day++;
+    } while (flag);
     cout << day;
     return 0;
 }
