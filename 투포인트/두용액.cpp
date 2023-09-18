@@ -17,7 +17,7 @@ int main(){
         cin >> arr[i];
     sort(arr.begin(),arr.end());
     int l=0,r=n-1;
-    while(l<=r){
+    while(l<r){
         if(abs(arr[l]+arr[r])<maxvalue){
             maxvalue = abs(arr[l]+arr[r]);
             p1 = l;

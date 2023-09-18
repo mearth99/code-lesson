@@ -11,29 +11,32 @@
 using namespace std;
 
 void dijk(int start, vector<vector<pair<int,int>>> &graph, vector<int> &node){
-    queue<pair<int,int>> q;
-    q.push({start,0});
+    priority_queue<pair<int,int>,vector<pair<int,int>>, greater<pair<int,int>>> q;
+    q.push({0,start});
     node[start] = 0; //출발지점의 비용은 0이다.
     while(!q.empty()){
-        int target = q.front().first;
-        int cost = q.front().second;
+        int cost = q.top().first;
+        int target = q.top().second;
+        q.pop();
         if(node[target]<cost) continue; //현재 탐사하고 있는 비용이 기존 비용보다 많으면 탐사할 필요가 없다.
         for(auto it : graph[target]){
             int nextcost = it.second + cost; //현재 노드까지 탐사 비용과 다음 노드로 향하는 비용을 덧셈한다.
             if(nextcost<node[it.first]) //현재 탐사 비용이 기존 비용보다 더 저렴하다면 탐사한다.
             {
                node[it.first] = nextcost;
-               q.push({it.first,nextcost}); 
+               q.push({nextcost,it.first}); 
             }
         } 
     }
 }
 int main(){
     int n,m;
+    cin >> n >> m;
     vector<vector<pair<int,int>>> graph;
     vector<int> node(n,INF);
     for(int i=0;i<m;i++){
         int from, to, cost;
+        cin >> from >> to >> cost;
         graph[from].push_back({to,cost});
         graph[to].push_back({from,cost});
     }
