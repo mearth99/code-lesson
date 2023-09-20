@@ -10,10 +10,10 @@
 #include <algorithm>
 #include <queue>
 #include <cmath>
-#define MAX 101
+#define MAX 1001
 using namespace std;
 
-double graph[101][101];
+double graph[MAX][MAX];
 bool visited[MAX];
 double costs = 0;
 void Prim(int start,int n){
@@ -26,9 +26,11 @@ void Prim(int start,int n){
     if(!visited[target]){
       visited[target] = true;
       costs += cost;
-      for(int i=0;i<n;i++){
-        if(!visited[i])
+      for(int i=1;i<=n;i++){
+        if(!visited[i]){
+          double check = graph[target][i];
           q.push({graph[target][i],i});
+        }
       }
     }
   }
@@ -37,18 +39,26 @@ void Prim(int start,int n){
 
 int main(){
   int n,m;
-  cin >> n;
-  pair<double,double> star[101];
-  for(int i=0;i<n;i++)
-    cin >> star[i].first >> star[i].second;
-  for(int i=0;i<n;i++)
-    for(int j=0;j<n;j++){
-      double x = star[i].first - star[j].first;
-      double y = star[i].second - star[j].second;
-      graph[i][j] = sqrt(pow(x,2) + pow(y,2));
+  cin >> n >> m;
+  pair<int,int> space[MAX];
+  for(int i=1;i<=n;i++){
+    cin >> space[i].first >> space[i].second;
+  }
+  for(int i=1;i<=n;i++)
+    for(int j=1;j<=n;j++){
+      double x = space[i].first - space[j].first;
+      double y = space[i].second - space[j].second;
+      graph[i][j] = sqrt(x*x + y*y);
     }
+  for(int i=0;i<m;i++){
+    int from, to;
+    cin >> from >> to;
+    graph[from][to] = 0;
+    graph[to][from] = 0;
+  }
   Prim(1,n);
-  cout.precision(3);
+  cout << fixed;
+  cout.precision(2);
   cout << costs;
   return 0;
 }

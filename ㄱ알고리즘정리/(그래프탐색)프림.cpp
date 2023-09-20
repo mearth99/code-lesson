@@ -24,7 +24,6 @@ void Prim(int start){
     if(!visited[target]){
       visited[target] = true;
       costs += cost;
-
       for(auto i : graph[target]){
         if(!visited[i.first])
           q.push({i.second,i.first});
@@ -36,9 +35,10 @@ void Prim(int start){
 
 int main(){
   int n,m;
+  cin >> n >> m;
   for(int i=0;i<m;i++){
     int from, to, cost;
-    cin >> from, to, cost;
+    cin >> from >> to >> cost;
     graph[from].push_back({to,cost});
   }
   Prim(1);

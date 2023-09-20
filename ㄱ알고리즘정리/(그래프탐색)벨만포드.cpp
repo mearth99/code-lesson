@@ -22,19 +22,19 @@
 #include <algorithm>
 #include <queue>
 #define INF 2100000000
+#define MAX 10001
 using namespace std;
 
 struct codes
 {
-  int from; int to; int cost;
+  int from; 
+  int to; 
+  int cost;
 };
-codes make_codes(int from, int to, int cost){
-  codes temp; temp.cost = cost; temp.from = from; temp.to = to;
-  return temp;
-}
+
 
 int n,m;
-long long node[501];
+long long node[MAX];
 vector<codes> city;
 
 bool bellmanford(int start){
@@ -58,13 +58,13 @@ bool bellmanford(int start){
 
 int main(){
   ios_base::sync_with_stdio(0);
-	cin.tie(0);
+  cin.tie(0);
   cin >> n >> m;
-  for(int i=0;i<501;i++) node[i] = INF;
+  for(int i=1;i<=n;i++) node[i] = INF;
   for(int i=0;i<m;i++){
     int from, to, cost;
     cin >> from >> to >> cost;
-    city.push_back(make_codes(from,to,cost));
+    city.push_back({from,to,cost});
   }
   if(bellmanford(1)){
     cout << -1;
