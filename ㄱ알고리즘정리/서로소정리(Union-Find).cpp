@@ -11,7 +11,7 @@
 int node[MAX];
 int GetParent(int x){
   if(x==node[x]) return x;
-  else node[x] = GetParent(x);
+  else node[x] = GetParent(node[x]);
 }
 void UnionParent(int a, int b){
   a = GetParent(a);
