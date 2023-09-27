@@ -1,47 +1,66 @@
-#include<cstring>
 #include<iostream>
 #include<vector>
-#include<queue>
-#include<string>
+#include<algorithm>
+#include<cmath>
+
 using namespace std;
 
+int n;
+vector<int>work[21];
+int dp[1<<21];
+int inf = 987654321;
 
-int S=0;
+void make_works()
+{
+	cin >> n;
+	for (int i = 0; i < n; i++){
+		for (int j = 0; j < n; j++) {
+			int w;
+			cin >> w;
+			work[i].push_back(w);
+		}
+	}
+}
 
-int main(){
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
-    int M;
-    cin >> M;
-    for(int i=0;i<M;i++){
-        string command;
-        int cur;
-        cin >> command;
-        if(command =="add"){
-            cin >> cur;
-            S = S | (1<<cur);
-        }
-        if(command =="remove"){
-            cin >> cur;
-            S = S & ~(1<<cur);
-        }
-        if(command =="check"){
-            cin >> cur;
-            if(S&(1<<cur)) cout << "1" << '\n';
-            else cout << "0" << '\n';
-        }
-        if(command =="toggle"){
-            cin >> cur;
-            S = S ^ (1<<cur);
-        }
-        if(command =="all"){
-           S=(1<<21)-1;
-        }
-        if(command =="empty"){
-            S=0;
-        }
+// bitmask 이용한 dp (초기화 : inf)
+// 수행한 작업(i)을 n 길이의 bit의 1로 켠다.
+// i번째 비트 켜기 : bit | (1<<i)
+// i번째 비트 끄기 : bit & ~(1<<i)
+// i번째 비트 켜져 있는 지 확인 : bit & (1<<i)
+// dp[bit | (1<<i)] = min(dp[bit | (1<<i)], dp[bit]+work[x][i])
+// x : bit에 있는 1의 개수
 
-    }
-    return 0;
+int count_bit(int num)
+{
+	int cnt = 0;
+	while (num) {
+		cnt += (num & 1);
+		num >>= 1;
+	}
+	return cnt;
+}
+
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	make_works();
+	
+	for (int i = 0; i < (1<<n); i++) {
+		dp[i] = inf;
+	}
+	dp[0] = 0;
+
+	for (int i = 0; i < (1<<n); i++) {
+		int x = count_bit(i);
+		for (int j = 0; j < n; j++) {
+			if (!(i & (1 << j))) {
+				dp[i | (1 << j)] = min(dp[i | (1 << j)], dp[i] + work[x][j]);
+			}
+		}
+	}
+
+	cout << dp[(1<<n) - 1];
 }
