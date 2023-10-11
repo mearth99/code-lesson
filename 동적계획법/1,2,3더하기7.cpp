@@ -20,7 +20,7 @@ int main()
     for(int i=4;i<MAX;i++){
       for(int j=1;j<=i;j++){
         //이전것에서 1을 더하는 방법
-        DP[i][j] = DP[i-1][j-1] + DP[i-2][j-1] + DP[i-3][j-1];
+        DP[i][j] = (DP[i-1][j-1] + DP[i-2][j-1] + DP[i-3][j-1])%MOD;
       }
     }
     int N,T,M;

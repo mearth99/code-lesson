@@ -10,7 +10,6 @@ int main()
     cin.tie(NULL);
     cout.tie(NULL);
     DP[1][1] = 1;
-    DP[2][1] = 1;
     DP[2][2] = 1;
     DP[3][1] = 1;
     DP[3][2] = 1;
