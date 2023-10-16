@@ -3,36 +3,36 @@
 #include <cstring>
 #include <algorithm>
 using namespace std;
-//DFS 탐색(깊이 우선)과 DP를 합친 문제로, 이미 계산한 DP가 있다면 더 이상 계산하지 않는 방식으로 계산을 단축시킬 수 있다.
-//DP[a][b]=c a: 경찰차 1의 최신 사건, b: 경찰차2의 최신 사건 일때 최소비용으로 둔다면, 좌표값을 계속 기억하지 않고도 써먹을 수 있다.
-//사건의 갯수가 W이기 때문에, W를 구하기 위해서는 DP[W][0] , DP[W-1][1], DP[W-2][2] ... DP[0][W] 사이의 값을 모두 구해야한다.
+#define INF 987654321
 int D[2001][2001];
 int music[2001];
-vector<pair<int,int>> road;
 int N;
-
-int DFS(int p1, int p2){
-    if(p1==N || p2==N) return 0;
-    if(D[p1][p2] != -1) return D[p1][p2];
-    int na = max(p1,p2) + 1;
-    int r1,r2,d1,d2;
-     
-    d1 = DFS(na,p2) + ;
-    d2 = DFS(p1,na);
-    D[p1][p2] = min(r1,r2);
-    return D[p1][p2];
-}
-
 
 int main(){
     ios_base::sync_with_stdio(false);
 	cin.tie(NULL); cout.tie(NULL);
     cin >> N;
-    road.push_back({0,0});
-    
+    memset(D,0x7f,sizeof(D));
     for(int i=1;i<=N;i++){
         cin >> music[i];
     }
-    cout << DFS(0,0) << '\n';
+    D[0][1] = D[1][0] = 0;
+    for(int i=0;i<N;i++){
+        for(int j=0;j<N;j++){
+            if(i==j) continue; //둘이 같은 노래를 선점하는건 존재하지 않는다.
+            int next_music = max(i,j) +1; //다음 노래는 i와 j가 부른 최신의 노래 중 가장 큰 값의 +1이다.
+            if(next_music>N) continue;
+            if(i==0 || j ==0)
+                music[0] = music[next_music];
+            D[next_music][j] = min(D[next_music][j], D[i][j] + abs(music[i]-music[next_music]));
+            D[i][next_music] = min(D[i][next_music], D[i][j] + abs(music[j]-music[next_music]));
+        }
+    }
+    for(int i=0;i<=N;i++){
+        for(int j=0;j<=N;j++){
+            cout << D[i][j] << " ";
+        }
+        cout << endl;
+    }
     return 0;
 }

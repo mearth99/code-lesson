@@ -1,29 +1,22 @@
 #include <string>
 #include <vector>
-#include <queue>
-#include <algorithm>
+#include <set>
 using namespace std;
-
-int solution(int x, int y, int n) {
-    int answer = 987654321;
-    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> q;
-    q.push({0,x});
-    while(!q.empty()){
-        int count = q.top().first;
-        int cur = q.top().second;
-        if(cur==y){
-            answer = min(answer, count);
-            break;
-        }
-        if(cur<y){
-            q.push({count+1,cur+n});    
-            q.push({count+1,cur*2});    
-            q.push({count+1,cur*3});    
-        }
+vector<set<int>> D(8);
+int getN(int N, int count){
+    int output = N;
+    for(int i=1;i<=count;i++){
+        output = output*10+N;
     }
-    return answer;
+    return output;
 }
-int main(){
-    solution(10,40,5);
-    return 0;
+int solution(int N, int number) {
+    if(N==number) return 1;
+    D[0].insert(N);
+    for(int i=1;i<=7;i++){
+        D[i].insert(getN(i,N));
+        
+    }
+    
+    return answer;
 }
