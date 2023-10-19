@@ -1,7 +1,12 @@
 #include <string>
 #include <vector>
-
+#include <set>
 using namespace std;
+
+vector<set<string>> ban_list;
+vector<string> user;
+vector<string> ban;
+bool visit[8];
 bool S_compare(string user, string ban){
     if(user.size()!=ban.size()) return false;
     for(int i=0;i<user.size();i++){
@@ -11,11 +16,25 @@ bool S_compare(string user, string ban){
     }
     return true;
 }
-
+void DFS(int index, set<string> s){
+    if(index == ban.size()){
+        ban_list.push_back(s);
+        return;
+    }
+    for(int i=0;i<user.size();i++){
+        if(!visit[i] && S_compare(user[i],ban[index])){
+            set<string> other_s = s;
+            other_s.insert(user[i]);
+            visit[i] = true;
+            DFS(index+1,other_s);
+            visit[i] = false;
+        }
+    }
+}
 int solution(vector<string> user_id, vector<string> banned_id) {
-    int answer = 0;
-    /*
-    banned와 일치하는 user_id의 개수를 구한다. 순서와 상관없기 때문에, 가능한 경우의 수는 일치하는 리스트를 서로 곱하면 된다.
-    */
-    return answer;
+    user = user_id;
+    ban = banned_id;
+    set<string> s;
+    DFS(0,s);
+    return ban_list.size();
 }
