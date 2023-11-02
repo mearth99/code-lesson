@@ -31,7 +31,7 @@ void DFS(int cur, int cnt){
     }
     for(int i=cur;i<N;i++){
         visit[i] = true;
-        DFS(cur+1,cnt+1);
+        DFS(i+1,cnt+1);
         visit[i] = false;
     }
 }

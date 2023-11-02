@@ -24,21 +24,26 @@ N=1일때 10이다. N=2 일때는 55개이다. 11 12, 13, 14... 19까지, 22 23.
 #include <iostream>
 
 using namespace std;
+int dp[1001][11];
 
-int dp[1001];
-int P[1001];
+
 int main()
 {
     int N;
     cin >> N;
-    for(int i=1;i<=N;i++){
-        cin >> P[i];
+    for(int i=0;i<=9;i++){
+        dp[1][i] = 1;
+        dp[1][10] += dp[1][i];
     }
-    for(int i=1;i<=N;i++){
-        for(int j=1;j<=i;j++){
-            dp[i] = max(dp[i],dp[i-j]+P[j]);
+    for(int i=2;i<=N;i++){
+        for(int j=0;j<10;j++){
+            if(j==0)
+                dp[i][0] = 1;
+            else
+                dp[i][j] = (dp[i-1][j] + dp[i][j-1]) % 10007; 
+            dp[i][10] = (dp[i][10]+ dp[i][j])%10007;
         }
     }
-    cout << dp[N];
+    cout << dp[N][10];
     return 0;
 }
