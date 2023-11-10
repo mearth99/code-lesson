@@ -9,34 +9,43 @@ using namespace std;
 
 int output = 0;
 
-void DFS(string number, int count, int cur_count){
-	if(count == cur_count){
-		output = max(output, stoi(number));
-		return;
-	}
-	for(int i=0;i<number.size()-1;i++){
-		for(int j=i+1;j<number.size();j++){
-			swap(number[i],number[j]);
-			DFS(number,count,cur_count+1);
-			swap(number[i],number[j]);
-		}
-	}
-	return;
-}
+/*
+사재기는 시세가 감소해간다면 아무것도 구할 수 없고,
+시세가 증가해가면 계속 구매하면 된다.
+즉, 현재 값보다 더 큰 값이 앞으로 있다면. 구매하면 된다.
+앞으로 큰값이 있다는 건 어떻게 알 수 있을까?
+*/
 
 int main(int argc, char** argv)
 {
 	int test_case,T;
-	vector<int> outputs;
+	vector<long long> outputs;
+	vector<long long> arr;
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
 	cin>>T;
 	for(test_case = 1; test_case <= T; ++test_case){
-		output = 0;
-		int count;
-		string number;
-		cin >> number >> count;
-        if(count > number.size()) count = number.size();
-		DFS(number,count,0);
+		long long N,getMax = 0,output = 0,buy_cnt=0;
+		cin >> N;
+		for(int i=0;i<N;i++){
+			int temp;
+			cin >> temp;
+			arr.push_back(temp);
+		}
+		getMax = *max_element(arr.begin(),arr.end());
+		for(int i=0;i<N;i++){
+			if(arr[i]<getMax){
+				output -= arr[i];
+				buy_cnt++;
+			} else if(arr[i]==getMax){
+				output += (buy_cnt) * getMax;
+				if(i!=N-1)
+					getMax = *max_element(arr.begin()+i+1,arr.end());
+					buy_cnt=0;
+			}
+		}
 		outputs.push_back(output);
+		arr.clear();
 	}
 	int a=1;
 	for(auto it : outputs)
