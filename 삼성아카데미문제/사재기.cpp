@@ -21,8 +21,8 @@ int main(int argc, char** argv)
 	int test_case,T;
 	vector<long long> outputs;
 	vector<long long> arr;
-	freopen("input.txt", "r", stdin);
-	freopen("output.txt", "w", stdout);
+	freopen("/mnt/c/Users/dlwls/Downloads/input.txt", "r", stdin);
+	freopen("/mnt/c/Users/dlwls/Downloads/myoutput.txt", "w", stdout);
 	cin>>T;
 	for(test_case = 1; test_case <= T; ++test_case){
 		long long N,getMax = 0,output = 0,buy_cnt=0;
