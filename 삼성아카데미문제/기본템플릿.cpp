@@ -7,16 +7,20 @@
 #include <string>
 using namespace std;
 
+vector<int> outputs;
+
 int main(int argc, char** argv)
 {
-	freopen("/mnt/c/Users/dlwls/Downloads/input.txt", "r", stdin);
-	freopen("/mnt/c/Users/dlwls/Downloads/myoutput.txt", "w", stdout);
+	freopen("input.txt", "r", stdin);
+	freopen("myoutput.txt", "w", stdout);
 	int test_case,T;
 	cin>>T;
 
 	for(test_case = 1; test_case <= T; ++test_case){
 
 	}
-
+	int a = 1;
+	for(auto it : outputs)
+		cout << '#' << a++ << ' ' << it << '\n';
 	return 0;//정상종료시 반드시 0을 리턴해야합니다.
 }
