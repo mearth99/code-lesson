@@ -23,7 +23,7 @@ void DFS(int cy, int cx, int ey, int ex){
 	for(int i=0;i<4;i++){
 		int nx = cx + dx[i];
 		int ny = cy + dy[i];
-		if(nx>=0 && nx<16 && ny>=0 && ny<16 && maze[ny][nx]!=1 && !visited[ny][nx]){
+		if(nx>=0 && nx<100 && ny>=0 && ny<100 && maze[ny][nx]!=1 && !visited[ny][nx]){
 			DFS(ny,nx,ey,ex);
 		}
 	}
@@ -41,9 +41,9 @@ int main(int argc, char** argv)
 		cin>>T;
 		maze.clear();
 		visited.clear();
-		maze.resize(16,vector<int>(16,0));
-		visited.resize(16,vector<bool>(16,false));
-		for(int i=0;i<16;i++){
+		maze.resize(100,vector<int>(100,0));
+		visited.resize(100,vector<bool>(100,false));
+		for(int i=0;i<100;i++){
 			string temp;
 			cin >> temp;
 			for(int j=0;j<temp.length();j++){
