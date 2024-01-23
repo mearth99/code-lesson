@@ -15,36 +15,29 @@ int N, K, output;
 vector<int> outputs;
 bool visited[8][8];
 
-void BFS(int sy, int sx, int sv, bool sflag, int slen,  vector<vector<int>> mountain){
-    queue<climb> q;       
-    q.push({sx,sy,sv,sflag,slen});
-    while(!q.empty()){
-        int x = q.front().x; 
-        int y = q.front().y;
-        int v = q.front().v;
-        int flag = q.front().flag;
-        int len = q.front().len;
-        output = max(output,len);
-        q.pop();
-        for(int i=0;i<4;i++){
-            int nx = x + dx[i];
-            int ny = y + dy[i];
-            if(nx>=0 && nx<N && ny >=0 && ny<N && !visited[ny][nx]){
-                if(mountain[ny][nx] < v){
-                    q.push({nx,ny,mountain[ny][nx],flag,len+1});
-                    visited[ny][nx] = true;
-                }
-                else if(mountain[ny][nx]-K < v && flag){
-                    q.push({nx,ny,mountain[ny][nx]-1,0,len+1});
-                    visited[ny][nx] = true;
-                }
+int DFS(int y, int x, int v, int flag, vector<vector<int>> mountain){
+    visited[y][x] = true;
+    int value = 0;
+    for(int i=0;i<4;i++){
+        int nx = x + dx[i];
+        int ny = y + dy[i];
+        if(nx>=0 && nx<N && ny >=0 && ny<N && !visited[ny][nx]){
+            if(mountain[ny][nx] < v)
+                value = max(value, DFS(ny,nx, mountain[ny][nx], flag, mountain)); 
+            else if(mountain[ny][nx]-K < v && flag){
+                value = max(value, DFS(ny,nx, v-1, false, mountain));
             }
         }
     }
+    visited[y][x] = false;
+    return value+1;
 }
+
 
 int main(int argc, char** argv)
 {
+    freopen("input.txt", "r", stdin);
+	freopen("myoutput.txt", "w", stdout);
 	int test_case;
 	int T;
 	cin>>T;
@@ -67,7 +60,7 @@ int main(int argc, char** argv)
         for(int i=0;i<N;i++){
         	for(int j=0;j<N;j++){
             	if(mountain[i][j]==Maxv)
-                    BFS(i, j, mountain[i][j], true, 1, mountain);
+                    output = max(output, DFS(i, j, mountain[i][j], true, mountain));
                     memset(visited,0,sizeof(visited));
             }
         }
@@ -77,7 +70,9 @@ int main(int argc, char** argv)
         }
         mountain.clear();
 	}
-    for(auto it : outputs)
-        cout << it << '\n';
+    int a = 1;
+	for(auto &it : outputs){
+		cout << '#' << a++ << ' ' << it << '\n';
+	}
 	return 0;//정상종료시 반드시 0을 리턴해야합니다.
 }

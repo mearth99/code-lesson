@@ -4,12 +4,12 @@
 #include <set>
 using namespace std;
 
-int visited[501][501];
+bool visited[501][501];
 vector<pair<int, set<int>>> width;
 
 int startvalue = 1;
-int dx[4] = {0,0,-1,1};
-int dy[4] = {-1,1,0,0};
+int dx[4] = {-1,1,0,0};
+int dy[4] = {0,0,-1,1};
 
 int n,m;
 pair<int, set<int>> BFS(int y, int x, vector<vector<int>> land){
@@ -25,12 +25,12 @@ pair<int, set<int>> BFS(int y, int x, vector<vector<int>> land){
 		for(int i=0;i<4;i++){
 			int nx = dx[i] + cur_x;
 			int ny = dy[i] + cur_y;
-			if(nx>=0 && nx<m && ny>=0 && ny<n && land[ny][nx]==1 && visited[ny][nx] == false){
-				q.push({ny,nx});
-				visited[ny][nx] = true;
-				groupsize++;
-				having.insert(nx);
-			}
+			if(nx<0 || nx>=m || ny<0 || ny>=n || land[ny][nx]==0 || visited[ny][nx]) 
+				continue;
+			q.push({ny,nx});
+			visited[ny][nx] = true;
+			groupsize++;
+			having.insert(nx);
 		}
 	}
 	return {groupsize, having};
@@ -44,7 +44,8 @@ int solution(vector<vector<int>> land) {
 	int value = 0;
 	for(int i=0;i<n;i++){
 		for(int j=0;j<m;j++){
-			if(land[i][j]==1 && visited[i][j]==false) width.push_back(BFS(i,j,land));
+			if(land[i][j]==0 || visited[i][j]) continue;
+			width.push_back(BFS(i,j,land));
 		}
 	}
 	for(auto i : width){
