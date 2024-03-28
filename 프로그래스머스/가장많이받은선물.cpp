@@ -40,7 +40,7 @@ int solution(vector<string> friends, vector<string> gifts) {
 			}
 		}
     }
-	int maxv = *max_element(gift_level.begin(),gift_level.end());
+	int maxv = *max_element(friend_gift.begin(),friend_gift.end());
     return maxv;
 }
 
