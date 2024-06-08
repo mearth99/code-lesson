@@ -24,46 +24,9 @@ vector<bool> visited;
 
 int main(int argc, char** argv)
 {
-	int test_case,T;
-	cin>>T;
-
-	for(test_case = 1; test_case <= T; ++test_case){
-		int N,count=0;
-		cin >> N;
-		wanted.resize(N);
-		reals.resize(N);
-		int hats[2001] = {0};
-		for(int i=0;i<N;i++){
-			cin >> wanted[i];
-		}
-		for(int i=0;i<N;i++){
-			cin >> reals[i];
-			for(int j=1;j<=3;j++)
-				if(reals[i]-j>=1)
-					hats[reals[i]-j]++;
-			for(int j=0;j<=3;j++)
-				if(reals[i]+j<=2000)
-					hats[reals[i]+j]++;
-		}	
-		sort(wanted.begin(),wanted.end());
-		sort(reals.begin(),reals.end());
-		for(int i=0;i<N;i++){
-			if(hats[wanted[i]]>0){
-				count++;
-				for(int j=1;j<=3;j++)
-					if(wanted[i]-j>=1)
-						hats[wanted[i]-j]--;
-				for(int j=0;j<=3;j++)
-					if(wanted[i]+j<=2000)
-						hats[wanted[i]+j]--;
-			}
-		}
-		outputs.push_back(count);
+	int testcode;
+	cin >> testcode;
+	if(testcode==1){
+				
 	}
-	int a = 1;
-	for(auto &it : outputs){
-		cout << '#' << a++ << ' ' << it << '\n';
-	}
-
-	return 0;//정상종료시 반드시 0을 리턴해야합니다.
 }
