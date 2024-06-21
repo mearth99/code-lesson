@@ -7,7 +7,9 @@ int DP_DFS(int visited, int artist, int price){
 	int &ret = DP[visited][artist][price];
 	if(ret != -1) return ret;
 	ret = 0;
-	for(int i=1;i)
+	for(int i=1;i<N;i++){
+		if(!)
+	}
 }
 
 

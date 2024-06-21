@@ -24,9 +24,6 @@ vector<bool> visited;
 
 int main(int argc, char** argv)
 {
-	int testcode;
-	cin >> testcode;
-	if(testcode==1){
-				
-	}
+	vector<bool> a;
+	bool *b = &a[0];
 }
