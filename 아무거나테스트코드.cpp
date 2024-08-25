@@ -1,29 +1,45 @@
-#include <iostream>
-#include <stdio.h>
-#include <vector>
-#include <algorithm>
-#include <queue>
-#include <cstring>
-#include <string>
+#include <bits/stdc++.h>
 using namespace std;
-/*
-첫번째 사람이 원하는 모자의 크기는 4이고, 사이즈 6 또는 사이즈 7 모자를 쓸 수 있다
-
-두번째 사람이 원하는 모자의 크기는 8이고, 사이즈 6, 사이즈 7, 사이즈 10 모자를 쓸 수 있다
-
-세번째 사람이 원하는 모자의 크기는 2이고, 만족하는 모자는 존재하지 않는다
 
 
-
-따라서, 위 내용을 조합해보면 첫번째 사람과 두번째 사람은 모자를 쓸 수 있고 답은 2가 된다
-*/
-vector<int> outputs;
-vector<int> wanted;
-vector<int> reals;
-vector<bool> visited;
-
-int main(int argc, char** argv)
-{
-	vector<bool> a;
-	bool *b = &a[0];
+int main(){
+    int T;
+    cin >> T;
+    while(T--){
+        int N,M,c1,c2,C;
+        cin >> N >> M;
+        vector<int> arr1(N);
+        vector<int> arr2(M);
+        cin >> c1 >> c2;
+        C= abs(c1-c2);
+        int minv = 99999999;
+        int min_cnt = 0;
+        for(int i=0;i<N;i++) cin >> arr1[i];
+        for(int i=0;i<M;i++) cin >> arr2[i];
+        sort(arr1.begin(),arr1.end());
+        sort(arr2.begin(),arr2.end());
+        if(N>=M){
+            for(int i=0;i<N;i++){
+                int v = abs(arr1[i] - *lower_bound(arr2.begin(),arr2.end(),arr1[i])) + C;
+                if(v<minv){
+                    minv = v;
+                    min_cnt = 1;
+                }else if(v==minv)
+                    min_cnt++;
+            }
+        }else{
+            for(int i=0;i<M;i++){
+                int v = abs(arr2[i] - *lower_bound(arr1.begin(),arr1.end(),arr2[i])) + C;
+                if(v<minv){
+                    minv = v;
+                    min_cnt = 1;
+                }else if(v==minv)
+                    min_cnt++;
+            }
+        }
+        cout << min_cnt;
+        arr1.clear();
+        arr2.clear();
+    }
+    return 0;
 }
